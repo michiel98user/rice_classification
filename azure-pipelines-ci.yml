@@ -1,0 +1,67 @@
+# Team name: 
+# Unfinished pipeline for linting and testing
+# There are 2 steps:
+# 1. Lint
+# 2. Test
+# Each step needs to be finished by your team
+
+trigger:
+- develop
+
+pool:
+  vmImage: ubuntu-latest
+  
+stages:
+
+- stage: Lint
+  displayName: Lint code
+  
+  jobs:
+  - job: "format_and_lint"
+    pool:
+      vmImage: ubuntu-latest
+    
+    steps:
+    - checkout: self # self represents the repo where the initial Pipelines YAML file was found
+      fetchDepth: "10"
+
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: "3.9"
+        architecture: "x64"
+        addToPath: true
+    
+    - script: |
+        python -m pip install -U pip --cache-dir ./.pipcache
+        python -m pip install -U flake8 --cache-dir ./.pipcache
+      displayName: "Install flake8"
+  
+  ## UNFINISHED ##
+  # Call flake8
+  # Make sure to add --max-line-length=100 to flake8
+  # as in our .pre-commit-config.yaml
+
+- stage: Test
+  displayName: Unit tests
+  dependsOn: Lint
+  condition: succeeded()
+
+  jobs:
+  - job: "Test"
+    pool:
+      vmImage: ubuntu-latest
+    
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+       versionSpec: "3.9"
+       architecture: "x64"
+       addToPath: true
+
+    - script: |
+        python -m pip install -U pip --cache-dir ./.pipcache
+        python -m pip install -U pytest --cache-dir ./.pipcache
+      displayName: "Install pytest"
+
+  ## UNFINISHED ##
+  # Call pytest for running your unit tests

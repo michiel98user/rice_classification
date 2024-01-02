@@ -1,0 +1,38 @@
+# Team name: 
+# Unfinished pipeline for "deployment"
+# 1. Change the destinationRepoName to repo_team_{your team number}
+# 2. Define the secrets within the variables
+#    of the Azure DevOps pipeline (in the UI)
+# The secrets will be shared by the organizational team
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+  
+stages:
+  
+- stage: Deploy
+  displayName: Move code to Azure Deltalake
+
+  jobs:
+  - job: CopyToDataLake
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+      # self represents the repo where the initial Pipelines YAML file was found
+      - checkout: self 
+        fetchDepth: "10"
+
+      # Copy the repository to the Azure Data Lake Gen 2 storage account
+      - task: AzureCLI@2
+        inputs:
+          azureSubscription: $(azure_subscription)
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            az storage blob upload-batch -d repos -s ./ --account-name $(accountName) --auth-mode login --destination-path $(destinationRepoName)
+  
+  
