@@ -32,6 +32,6 @@ FILE_LOGGER = FOLDER_LOGS / "logs.log"
 
 # FILE PATHS: Paths to files (.csv, .xlsx),
 # databases (.db, .sqlite) and their respective table names
-FILE_PATH_RAW = FOLDER_DATA_RAW / "online_shoppers_intention.csv"
+FILE_PATH_RAW = FOLDER_DATA_RAW / "Rice_Image_Dataset"
 FILE_PATH_INTERIM = FOLDER_DATA_INTERIM / "interim_dataset.csv"
 FILE_PATH_PROCESSED = FOLDER_DATA_PROCESSED / "processed_dataset.csv"
