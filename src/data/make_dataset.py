@@ -16,10 +16,10 @@ def make_dataset():
     Returns:
         type: description of return value
     """
-    # Get a list of subdirectories (each subdirectory corresponds to a class)
-    class_folders = [f.name for f in os.scandir(FOLDER_DATA_RAW) if f.is_dir()]
+    # # Get a list of subdirectories (each subdirectory corresponds to a class)
+    # class_folders = [f.name for f in os.scandir(FOLDER_DATA_RAW) if f.is_dir()]
 
-    img_size = 224
+    # img_size = 224
     batch_size =64
     # fpath = "/kaggle/input/rice-image-dataset/Rice_Image_Dataset"
     datagen = ImageDataGenerator(rescale=1/255.,
@@ -27,7 +27,6 @@ def make_dataset():
                                 validation_split = 0.2,
                                 rotation_range=30,
                                 horizontal_flip=True)
-    class_folders = [f.name for f in os.scandir("C:/Users/MichielWelling/rice classification/data/raw/Rice_Image_Dataset") if f.is_dir()]
 
     # splitting to train and test
     train = datagen.flow_from_directory(FILE_PATH_RAW,
@@ -39,8 +38,7 @@ def make_dataset():
                                     target_size=(224,224),
                                     batch_size=64,
                                     subset='validation',
-                                    class_mode='categorical')
-    
+                                    class_mode='categorical')   
     
     
     return train, valdata
